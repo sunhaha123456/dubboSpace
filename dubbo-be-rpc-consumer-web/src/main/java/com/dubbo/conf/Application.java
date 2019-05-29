@@ -29,7 +29,6 @@ public class Application extends WebMvcConfigurationSupport {
 
     @Inject
     private LoginInterceptor loginInterceptor;
-
     @Inject
     private SessionIdInterceptor sessionIdInterceptor;
 

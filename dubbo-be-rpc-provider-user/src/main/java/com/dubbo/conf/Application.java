@@ -1,7 +1,6 @@
 package com.dubbo.conf;
 
 import com.alibaba.dubbo.config.spring.context.annotation.DubboComponentScan;
-import com.dubbo.common.util.SessionIdInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,10 +12,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-
-import javax.inject.Inject;
 
 @RestController
 //@ComponentScan(value = "com.dubbo", excludeFilters={@ComponentScan.Filter(type= FilterType.ANNOTATION, value=Service.class)})
@@ -28,9 +24,6 @@ import javax.inject.Inject;
 @SpringBootApplication
 public class Application extends WebMvcConfigurationSupport {
 
-    @Inject
-    private SessionIdInterceptor sessionIdInterceptor;
-
     @RequestMapping("/home")
     String home() {
         return "Hello World!";
@@ -38,12 +31,6 @@ public class Application extends WebMvcConfigurationSupport {
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);
-    }
-
-    //拦截器
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(sessionIdInterceptor).addPathPatterns("/**");
     }
 
     @Bean

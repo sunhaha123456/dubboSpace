@@ -14,24 +14,38 @@ public class ValueHolder {
 
     private static final ThreadLocal<String> tokenHolder = new ThreadLocal<>();
 
+    private static final ThreadLocal<String> sessionIdHolder = new ThreadLocal<>();
+
     public void setUserIdHolder(Long userId) {
-        this.userIdHolder.set(userId);
+        userIdHolder.set(userId);
     }
 
     public Long getUserIdHolder() {
-        return this.userIdHolder.get();
+        return userIdHolder.get();
     }
 
     public void setTokenHolder(String token) {
-        this.tokenHolder.set(token);
+        tokenHolder.set(token);
     }
 
     public String getTokenHolder() {
         return tokenHolder.get();
     }
 
+    public void setSessionIdHolder() {
+        sessionIdHolder.set("|" + IdUtil.getID() + "|");
+    }
+
+    public String getSessionIdHolder() {
+        return sessionIdHolder.get();
+    }
+
     public void removeAll() {
-        this.userIdHolder.remove();
-        this.tokenHolder.remove();
+        userIdHolder.remove();
+        tokenHolder.remove();
+    }
+
+    public void removeSessioId() {
+        sessionIdHolder.remove();
     }
 }

@@ -1,7 +1,6 @@
 package com.dubbo.aspect;
 
 import com.dubbo.common.util.JsonUtil;
-import com.dubbo.common.util.StringUtil;
 import com.dubbo.common.util.ValueHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -59,9 +58,9 @@ public class SysLogAspect {
             }
             Long userId = valueHolder.getUserIdHolder();
             if (userId != null) {
-                log.info("日志：请求---method：{}---param：{}", method, JsonUtil.objectToJson(param));
+                log.info("sessioId:{}，请求---method：{}---param：{}", valueHolder.getSessionIdHolder(), method, JsonUtil.objectToJson(param));
             } else {
-                log.info("日志：请求---method：{}---param：{}---【userId：{}---token：{}】", method, JsonUtil.objectToJson(param), userId, valueHolder.getTokenHolder());
+                log.info("sessioId:{}，请求---method：{}---param：{}---【userId：{}---token：{}】", valueHolder.getSessionIdHolder(), method, JsonUtil.objectToJson(param), userId, valueHolder.getTokenHolder());
             }
         }
     }
@@ -70,7 +69,7 @@ public class SysLogAspect {
     public void after(JoinPoint point, Object returnValue) {
         String method = point.getSignature().getDeclaringTypeName() + "." + point.getSignature().getName();
         if (!noLogList.contains(method)) {
-            log.info("日志：返回---method：{}---return：{}，共耗时-{}-毫秒", method, JsonUtil.objectToJson(returnValue), System.currentTimeMillis() - startTime);
+            log.info("sessioId:{}，返回---method：{}---return：{}，共耗时-{}-毫秒", valueHolder.getSessionIdHolder(), method, JsonUtil.objectToJson(returnValue), System.currentTimeMillis() - startTime);
         }
     }
 }
