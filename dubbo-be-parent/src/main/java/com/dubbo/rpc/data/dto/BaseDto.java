@@ -8,7 +8,6 @@ import java.io.Serializable;
 public class BaseDto implements Serializable{
     protected String token;
     protected Long userId;
-    protected String sessionId;
 
     public BaseDto() {
     }
@@ -16,11 +15,5 @@ public class BaseDto implements Serializable{
     public BaseDto(String token, Long userId) {
         this.token = token;
         this.userId = userId;
-    }
-
-    public BaseDto(String token, Long userId, String sessionId) {
-        this.token = token;
-        this.userId = userId;
-        this.sessionId = sessionId;
     }
 }
