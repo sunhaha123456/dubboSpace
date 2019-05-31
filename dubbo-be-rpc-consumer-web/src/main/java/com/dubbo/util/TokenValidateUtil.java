@@ -17,8 +17,8 @@ public class TokenValidateUtil {
         if (StringUtil.isEmpty(userId)) {
             userId = request.getParameter(ConsumerConstant.SYSTEM_USER_ID);
         }
-        String method = request.getMethod();
-        String url = request.getRequestURI().toUpperCase();
+        String method = request.getMethod().toUpperCase();
+        String url = request.getRequestURI();
         return new TokenValidateDto(token, userId, method, url);
     }
 }

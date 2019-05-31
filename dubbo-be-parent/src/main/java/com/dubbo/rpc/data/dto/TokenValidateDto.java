@@ -2,21 +2,19 @@ package com.dubbo.rpc.data.dto;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
-public class TokenValidateDto implements Serializable {
-    private String token;
-    private String userId;
+public class TokenValidateDto extends BaseDto {
+    private String tokenValidate;
+    private String userIdValidate;
     private String method;
     private String url;
 
     public TokenValidateDto() {
     }
 
-    public TokenValidateDto(String token, String userId, String method, String url) {
-        this.token = token;
-        this.userId = userId;
+    public TokenValidateDto(String tokenValidate, String userIdValidate, String method, String url) {
+        this.tokenValidate = tokenValidate;
+        this.userIdValidate = userIdValidate;
         this.method = method;
         this.url = url;
     }

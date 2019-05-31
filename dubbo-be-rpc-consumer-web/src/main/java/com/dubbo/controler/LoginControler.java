@@ -2,8 +2,8 @@ package com.dubbo.controler;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.dubbo.common.util.StringUtil;
+import com.dubbo.rpc.data.dto.BaseDto;
 import com.dubbo.rpc.data.dto.TokenValidateDto;
-import com.dubbo.rpc.data.dto.UserInfoDto;
 import com.dubbo.rpc.data.dto.UserLoginDto;
 import com.dubbo.rpc.service.LoginService;
 import com.dubbo.util.TokenValidateUtil;
@@ -52,7 +52,7 @@ public class LoginControler {
 
     @ResponseBody
     @PostMapping(value = "/verify")
-    public UserInfoDto verify(@RequestBody @Validated(UserLoginDto.BaseInfo.class) UserLoginDto param) throws Exception {
+    public BaseDto verify(@RequestBody @Validated(UserLoginDto.BaseInfo.class) UserLoginDto param) throws Exception {
         return loginService.verify(param);
     }
 }

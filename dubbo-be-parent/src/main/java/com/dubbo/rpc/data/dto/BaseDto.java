@@ -6,21 +6,21 @@ import java.io.Serializable;
 
 @Data
 public class BaseDto implements Serializable{
-    protected String dtoToken;
-    protected Long dtoUserId;
-    protected String dtoSessionId;
+    protected String token;
+    protected Long userId;
+    protected String sessionId;
 
     public BaseDto() {
     }
 
-    public BaseDto(String dtoToken, Long dtoUserId) {
-        this.dtoToken = dtoToken;
-        this.dtoUserId = dtoUserId;
+    public BaseDto(String token, Long userId) {
+        this.token = token;
+        this.userId = userId;
     }
 
-    public BaseDto(String dtoToken, Long dtoUserId, String dtoSessionId) {
-        this.dtoToken = dtoToken;
-        this.dtoUserId = dtoUserId;
-        this.dtoSessionId = dtoSessionId;
+    public BaseDto(String token, Long userId, String sessionId) {
+        this.token = token;
+        this.userId = userId;
+        this.sessionId = sessionId;
     }
 }

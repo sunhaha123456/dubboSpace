@@ -38,7 +38,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public String toSuccess(TokenValidateDto dto) throws Exception {
         if (tokenValidate(dto)) {
-            Optional<TbUser> tbUserOptional = tbUserRepository.findById(Long.valueOf(dto.getUserId()));
+            Optional<TbUser> tbUserOptional = tbUserRepository.findById(Long.valueOf(dto.getUserIdValidate()));
             if (tbUserOptional.isPresent()) {
                 TbUser user = tbUserOptional.get();
                 return user.getUname();
@@ -50,7 +50,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public void out(TokenValidateDto dto) throws Exception {
         if (tokenValidate(dto)) {
-            redisRepositoryCustom.delete(ProviderConstant.LOGIN_USER_PREFIX + dto.getUserId());
+            redisRepositoryCustom.delete(ProviderConstant.LOGIN_USER_PREFIX + dto.getUserIdValidate());
         }
     }
 
@@ -74,13 +74,13 @@ public class LoginServiceImpl implements LoginService {
         userService.userRedisInfoSave(userRedisKey, userRedis);
         // 4、删除redis验证码
         redisRepositoryCustom.delete(RpcConstant.LOGIN_CODE_PREFIX + param.getKey());
-        return new UserInfoDto(userRedis.getToken(), user.getId() + "");
+        return new UserInfoDto(userRedis.getToken(), user.getId());
     }
 
     @Override
     public boolean tokenValidate(TokenValidateDto dto) {
-        String token = dto.getToken();
-        String userId = dto.getUserId();
+        String token = dto.getTokenValidate();
+        String userId = dto.getUserIdValidate();
         String method = dto.getMethod();
         String url = dto.getUrl();
         if ("OPTIONS".equals(method)) {

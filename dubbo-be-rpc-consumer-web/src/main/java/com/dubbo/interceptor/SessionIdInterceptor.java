@@ -1,12 +1,12 @@
 package com.dubbo.interceptor;
 
-import com.dubbo.common.util.ValueHolder;
+import com.dubbo.common.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,12 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class SessionIdInterceptor implements HandlerInterceptor {
 
-    @Inject
-    private ValueHolder valueHolder;
+    private final static String SESSION_KEY = "sessionId";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        valueHolder.setSessionIdHolder();
+        String sessionValue = "session_id_" + IdUtil.getID();
+        MDC.put(SESSION_KEY, sessionValue);
         return true;
     }
 
@@ -30,6 +30,6 @@ public class SessionIdInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        valueHolder.removeSessioId();
+        MDC.remove(SESSION_KEY);
     }
 }

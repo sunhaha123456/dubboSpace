@@ -2,6 +2,7 @@ package com.dubbo.aspect;
 
 import com.dubbo.common.util.JsonUtil;
 import com.dubbo.common.util.ValueHolder;
+import com.dubbo.rpc.data.dto.BaseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -52,16 +53,16 @@ public class SysLogAspect {
                 param = new ArrayList(point.getArgs().length);
                 for (Object p : point.getArgs()) {
                     if (!(p instanceof HttpServletRequest) && !(p instanceof HttpServletResponse) && !(p instanceof BindingResult)) {
+                        if (p instanceof BaseDto) {
+                            BaseDto dto = (BaseDto) p;
+                            dto.setUserId(valueHolder.getUserIdHolder());
+                            dto.setToken(valueHolder.getTokenHolder());
+                        }
                         param.add(p);
                     }
                 }
             }
-            Long userId = valueHolder.getUserIdHolder();
-            if (userId != null) {
-                log.info("sessioId:{}，请求---method：{}---param：{}", valueHolder.getSessionIdHolder(), method, JsonUtil.objectToJson(param));
-            } else {
-                log.info("sessioId:{}，请求---method：{}---param：{}---【userId：{}---token：{}】", valueHolder.getSessionIdHolder(), method, JsonUtil.objectToJson(param), userId, valueHolder.getTokenHolder());
-            }
+            log.info("请求---method：{}---param：{}", method, JsonUtil.objectToJson(param));
         }
     }
 
@@ -69,7 +70,7 @@ public class SysLogAspect {
     public void after(JoinPoint point, Object returnValue) {
         String method = point.getSignature().getDeclaringTypeName() + "." + point.getSignature().getName();
         if (!noLogList.contains(method)) {
-            log.info("sessioId:{}，返回---method：{}---return：{}，共耗时-{}-毫秒", valueHolder.getSessionIdHolder(), method, JsonUtil.objectToJson(returnValue), System.currentTimeMillis() - startTime);
+            log.info("返回---method：{}---return：{}，共耗时-{}-毫秒", method, JsonUtil.objectToJson(returnValue), System.currentTimeMillis() - startTime);
         }
     }
 }

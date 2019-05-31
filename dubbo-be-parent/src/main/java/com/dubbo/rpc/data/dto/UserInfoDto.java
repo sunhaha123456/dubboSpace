@@ -2,18 +2,17 @@ package com.dubbo.rpc.data.dto;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
-public class UserInfoDto implements Serializable {
-    private String token;
-    private String userId;
+public class UserInfoDto extends BaseDto {
 
     public UserInfoDto() {
     }
 
-    public UserInfoDto(String token, String userId) {
-        this.token = token;
-        this.userId = userId;
+    public UserInfoDto(String token, Long userId) {
+        super(token, userId);
+    }
+
+    public UserInfoDto(String token, Long userId, String sessionId) {
+        super(token, userId, sessionId);
     }
 }

@@ -24,8 +24,8 @@ import java.io.PrintWriter;
  * @author sunpeng
  * @date 2019
  */
-@Component
 @Slf4j
+@Component
 public class LoginInterceptor implements HandlerInterceptor {
 
     @Reference(check = false)
@@ -41,8 +41,9 @@ public class LoginInterceptor implements HandlerInterceptor {
             getFail(response);
             return false;
         }
-        valueHolder.setTokenHolder(dto.getToken());
-        valueHolder.setUserIdHolder(Long.valueOf(dto.getUserId()));
+        valueHolder.setTokenHolder(dto.getTokenValidate());
+        valueHolder.setUserIdHolder(Long.valueOf(dto.getUserIdValidate()));
+        log.info("请求---url:{}--userId：{}---token：{}", dto.getUrl(), dto.getUserId(), dto.getToken());
         return true;
     }
 

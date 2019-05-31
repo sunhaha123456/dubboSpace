@@ -1,18 +1,17 @@
 package com.dubbo.aspect;
 
+import com.dubbo.common.util.IdUtil;
 import com.dubbo.common.util.JsonUtil;
-import com.dubbo.common.util.StringUtil;
-import com.dubbo.common.util.ValueHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.MDC;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.BindingResult;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -28,6 +27,8 @@ import java.util.List;
 @Aspect
 @Configuration
 public class SysLogAspect {
+
+    private final static String SESSION_KEY = "sessionId";
 
     private long startTime = 0; // 开始时间
 
@@ -54,7 +55,9 @@ public class SysLogAspect {
                     }
                 }
             }
-            log.info("日志：请求---method：{}---param：{}", method, JsonUtil.objectToJson(param));
+            String sessionValue = "session_id_" + IdUtil.getID();
+            MDC.put(SESSION_KEY, sessionValue);
+            log.info("请求---method：{}---param：{}", method, JsonUtil.objectToJson(param));
         }
     }
 
@@ -62,7 +65,8 @@ public class SysLogAspect {
     public void after(JoinPoint point, Object returnValue) {
         String method = point.getSignature().getDeclaringTypeName() + "." + point.getSignature().getName();
         if (!noLogList.contains(method)) {
-            log.info("日志：返回---method：{}---return：{}，共耗时-{}-毫秒", method, JsonUtil.objectToJson(returnValue), System.currentTimeMillis() - startTime);
+            log.info("返回---method：{}---return：{}，共耗时-{}-毫秒", method, JsonUtil.objectToJson(returnValue), System.currentTimeMillis() - startTime);
+            MDC.remove(SESSION_KEY);
         }
     }
 }

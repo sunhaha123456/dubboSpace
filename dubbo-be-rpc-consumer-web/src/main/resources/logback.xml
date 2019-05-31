@@ -4,7 +4,7 @@
 <configuration>
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>[ %-5level] [%date{yyyy-MM-dd HH:mm:ss}] %logger{96} [%line] - %msg%n</pattern>
+      <pattern>[ %-5level] [%date{yyyy-MM-dd HH:mm:ss}] %X{sessionId} %logger{96} [%line] - %msg%n</pattern>
     </encoder>
   </appender>
 
@@ -12,7 +12,7 @@
     <!-- encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
     <encoder>
       <pattern>
-        [ %-5level] [%date{yyyy-MM-dd HH:mm:ss}] %logger{96} [%line] - %msg%n
+        [ %-5level] [%date{yyyy-MM-dd HH:mm:ss}] %X{sessionId} %logger{96} [%line] - %msg%n
       </pattern>
       <charset>UTF-8</charset>
     </encoder>

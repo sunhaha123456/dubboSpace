@@ -3,10 +3,9 @@ package com.dubbo.rpc.data.dto;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 
 @Data
-public class UserLoginDto implements Serializable {
+public class UserLoginDto extends BaseDto {
 
     // 用户名
     @NotBlank(message = "用户名不能为空！", groups = BaseInfo.class)
