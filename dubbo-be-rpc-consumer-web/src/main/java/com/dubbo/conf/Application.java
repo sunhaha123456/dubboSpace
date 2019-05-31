@@ -44,8 +44,8 @@ public class Application extends WebMvcConfigurationSupport {
     //拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor).addPathPatterns("/user/**");
         registry.addInterceptor(sessionIdInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(loginInterceptor).addPathPatterns("/user/**");
     }
 
     @Override
