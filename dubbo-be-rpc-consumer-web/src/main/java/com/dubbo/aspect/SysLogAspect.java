@@ -57,6 +57,7 @@ public class SysLogAspect {
                             BaseDto dto = (BaseDto) p;
                             dto.setUserId(valueHolder.getUserIdHolder());
                             dto.setToken(valueHolder.getTokenHolder());
+                            dto.setSessionId(valueHolder.getSessionIdHolder());
                         }
                         param.add(p);
                     }

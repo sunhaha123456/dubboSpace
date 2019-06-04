@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class BaseDto implements Serializable{
     protected String token;
     protected String userId;
+    protected String sessionId;
 
     public BaseDto() {
     }

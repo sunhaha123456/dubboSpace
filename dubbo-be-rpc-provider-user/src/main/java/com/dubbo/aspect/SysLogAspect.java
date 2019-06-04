@@ -2,6 +2,7 @@ package com.dubbo.aspect;
 
 import com.dubbo.common.util.IdUtil;
 import com.dubbo.common.util.JsonUtil;
+import com.dubbo.rpc.data.dto.BaseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -46,16 +47,23 @@ public class SysLogAspect {
         startTime = System.currentTimeMillis();   //获取开始时间
         String method = point.getSignature().getDeclaringTypeName() + "." + point.getSignature().getName();
         if (!noLogList.contains(method)) {
+            String sessionValue = null;
             List param = null;
             if (point.getArgs() != null && point.getArgs().length > 0) {
                 param = new ArrayList(point.getArgs().length);
                 for (Object p : point.getArgs()) {
                     if (!(p instanceof HttpServletRequest) && !(p instanceof HttpServletResponse) && !(p instanceof BindingResult)) {
+                        if (p instanceof BaseDto) {
+                            BaseDto dto = (BaseDto) p;
+                            sessionValue = dto.getSessionId();
+                        }
                         param.add(p);
                     }
                 }
             }
-            String sessionValue = "session_id_" + IdUtil.getID();
+            if (sessionValue == null) {
+                sessionValue = "session_id_" + IdUtil.getID();
+            }
             MDC.put(SESSION_KEY, sessionValue);
             log.info("请求---method：{}---param：{}", method, JsonUtil.objectToJson(param));
         }
