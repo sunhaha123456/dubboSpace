@@ -41,9 +41,9 @@ public class LoginInterceptor implements HandlerInterceptor {
             getFail(response);
             return false;
         }
-        valueHolder.setTokenHolder(dto.getTokenValidate());
-        valueHolder.setUserIdHolder(Long.valueOf(dto.getUserIdValidate()));
-        log.info("请求---url:{}--userId：{}---token：{}", dto.getUrl(), dto.getUserIdValidate(), dto.getTokenValidate());
+        valueHolder.setUserIdHolder(dto.getUserId());
+        valueHolder.setTokenHolder(dto.getToken());
+        log.info("请求---url:{}--userId：{}---token：{}", dto.getUrl(), dto.getUserId(), dto.getToken());
         return true;
     }
 

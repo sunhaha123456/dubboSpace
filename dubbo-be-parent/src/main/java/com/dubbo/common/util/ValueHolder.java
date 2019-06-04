@@ -10,15 +10,15 @@ import javax.inject.Singleton;
 @Component
 public class ValueHolder {
 
-    private static final ThreadLocal<Long> userIdHolder = new ThreadLocal<>();
+    private static final ThreadLocal<String> userIdHolder = new ThreadLocal<>();
 
     private static final ThreadLocal<String> tokenHolder = new ThreadLocal<>();
 
-    public void setUserIdHolder(Long userId) {
+    public void setUserIdHolder(String userId) {
         userIdHolder.set(userId);
     }
 
-    public Long getUserIdHolder() {
+    public String getUserIdHolder() {
         return userIdHolder.get();
     }
 

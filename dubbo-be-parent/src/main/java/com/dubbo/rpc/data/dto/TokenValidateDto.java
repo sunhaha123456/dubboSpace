@@ -4,17 +4,14 @@ import lombok.Data;
 
 @Data
 public class TokenValidateDto extends BaseDto {
-    private String tokenValidate;
-    private String userIdValidate;
     private String method;
     private String url;
 
     public TokenValidateDto() {
     }
 
-    public TokenValidateDto(String tokenValidate, String userIdValidate, String method, String url) {
-        this.tokenValidate = tokenValidate;
-        this.userIdValidate = userIdValidate;
+    public TokenValidateDto(String token, String userId, String method, String url) {
+        super(token, userId);
         this.method = method;
         this.url = url;
     }

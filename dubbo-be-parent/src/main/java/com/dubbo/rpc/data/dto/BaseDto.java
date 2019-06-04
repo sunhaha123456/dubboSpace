@@ -7,12 +7,12 @@ import java.io.Serializable;
 @Data
 public class BaseDto implements Serializable{
     protected String token;
-    protected Long userId;
+    protected String userId;
 
     public BaseDto() {
     }
 
-    public BaseDto(String token, Long userId) {
+    public BaseDto(String token, String userId) {
         this.token = token;
         this.userId = userId;
     }

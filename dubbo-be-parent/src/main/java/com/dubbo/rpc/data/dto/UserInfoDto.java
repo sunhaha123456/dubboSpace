@@ -8,7 +8,7 @@ public class UserInfoDto extends BaseDto {
     public UserInfoDto() {
     }
 
-    public UserInfoDto(String token, Long userId) {
+    public UserInfoDto(String token, String userId) {
         super(token, userId);
     }
 }
