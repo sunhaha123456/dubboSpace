@@ -63,7 +63,7 @@ public class SysLogAspect {
                     }
                 }
             }
-            log.info("请求---method：{}---param：{}", method, JsonUtil.objectToJson(param));
+            log.info("请求method：{}，param：{}", method, JsonUtil.objectToJson(param));
         }
     }
 
@@ -71,7 +71,7 @@ public class SysLogAspect {
     public void after(JoinPoint point, Object returnValue) {
         String method = point.getSignature().getDeclaringTypeName() + "." + point.getSignature().getName();
         if (!noLogList.contains(method)) {
-            log.info("返回---method：{}---return：{}，共耗时-{}-毫秒", method, JsonUtil.objectToJson(returnValue), System.currentTimeMillis() - startTime);
+            log.info("返回method：{}，return：{}，共耗时-{}-毫秒", method, JsonUtil.objectToJson(returnValue), System.currentTimeMillis() - startTime);
         }
     }
 }

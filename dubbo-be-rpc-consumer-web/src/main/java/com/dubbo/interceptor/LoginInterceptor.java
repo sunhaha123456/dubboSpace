@@ -43,7 +43,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
         valueHolder.setUserIdHolder(dto.getUserId());
         valueHolder.setTokenHolder(dto.getToken());
-        log.info("请求---url:{}--userId：{}---token：{}", dto.getUrl(), dto.getUserId(), dto.getToken());
+        log.info("请求url:{}，userId：{}，token：{}", dto.getUrl(), dto.getUserId(), dto.getToken());
         return true;
     }
 
