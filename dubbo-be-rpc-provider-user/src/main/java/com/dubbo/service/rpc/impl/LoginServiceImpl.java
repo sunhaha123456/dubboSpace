@@ -5,6 +5,7 @@ import com.dubbo.common.dao.redis.RedisRepositoryCustom;
 import com.dubbo.common.data.response.ResponseResultCode;
 import com.dubbo.common.exception.BusinessException;
 import com.dubbo.common.util.IdUtil;
+import com.dubbo.common.util.JsonUtil;
 import com.dubbo.common.util.Md5Util;
 import com.dubbo.common.util.StringUtil;
 import com.dubbo.dao.mysql.repository.TbUserRepository;
@@ -16,7 +17,6 @@ import com.dubbo.rpc.data.dto.TokenValidateDto;
 import com.dubbo.rpc.data.dto.UserInfoDto;
 import com.dubbo.rpc.data.dto.UserLoginDto;
 import com.dubbo.rpc.service.LoginService;
-import com.dubbo.service.local.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
@@ -32,8 +32,6 @@ public class LoginServiceImpl implements LoginService {
     private TbUserRepository tbUserRepository;
     @Inject
     private RedisRepositoryCustom redisRepositoryCustom;
-    @Inject
-    private UserService userService;
 
     @Override
     public String toSuccess(TokenValidateDto dto) throws Exception {
@@ -71,7 +69,7 @@ public class LoginServiceImpl implements LoginService {
         // 3、更新redis用户信息，更新用户token、用户状态
         String userRedisKey = ProviderConstant.LOGIN_USER_PREFIX + user.getId();
         UserRedisVo userRedis = new UserRedisVo(IdUtil.getID() + IdUtil.getID());
-        userService.userRedisInfoSave(userRedisKey, userRedis);
+        userRedisInfoSave(userRedisKey, userRedis);
         // 4、删除redis验证码
         redisRepositoryCustom.delete(RpcConstant.LOGIN_CODE_PREFIX + param.getKey());
         return new UserInfoDto(userRedis.getToken(), user.getId());
@@ -103,7 +101,12 @@ public class LoginServiceImpl implements LoginService {
             log.error("Request url：{}，method：{}，userId：{}，token：{}，拦截此请求：003-redis中userId对应redis中用户信息的token，与前端传入token，不一致！", url, method, userId, token);
             return false;
         }
-        userService.userRedisInfoSave(userRedisKey, userRedis);
+        userRedisInfoSave(userRedisKey, userRedis);
         return true;
+    }
+
+    // 功能：将用户信息存入redis
+    private void userRedisInfoSave(String redisKey, UserRedisVo userRedis) {
+        redisRepositoryCustom.saveMinutes(redisKey, JsonUtil.objectToJson(userRedis), ProviderConstant.TOKEN_SAVE_TIME);
     }
 }
